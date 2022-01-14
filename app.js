@@ -1,0 +1,24 @@
+// import { createRequire } from "module";
+// const require = createRequire(import.meta.url);
+
+// import "dotenv/config";
+require("dotenv").config()
+const express = require("express")
+const cors = require("cors")
+const apiRouter = require("./routes/apiRoutes")
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+
+
+
+app.use("/api", apiRouter);
+
+app.listen(process.env.PORT, () => {
+  console.log("Server is up on port");
+});
+
+
