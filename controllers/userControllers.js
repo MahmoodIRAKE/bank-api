@@ -2,7 +2,7 @@ const express = require("express");
 const utils=require('../utils/utils')
 const usersData=require('../json/data.json');
 const { json } = require("body-parser");
-const { redirect } = require("express/lib/response");
+const { redirect, send } = require("express/lib/response");
 const app = express();
 const path='./json/data.json';
 
@@ -16,7 +16,7 @@ const findUserIndex=(id)=>{
 // active is to define where to update cash or credit
 const despositeWithdrawCreditTrnasfer=(id,targetId,amount,num,active)=>{
   let userIndex=findUserIndex(id);
-  let targetIndex=findUserIndex(id);
+  let targetIndex=findUserIndex(targetId);
   if(userIndex){
       if(targetId){
         if(!targetIndex){
@@ -38,22 +38,26 @@ const despositeWithdrawCreditTrnasfer=(id,targetId,amount,num,active)=>{
 
 
 const transfer=(myIndexId,targetIndexId,amount)=>{
+  console.log(myIndexId,targetIndexId)
    let cash=usersData[myIndexId].cash;
    let credit=usersData[myIndexId].credit;
-    if(cash+credit<amount){
+   let amount1=amount
+    if(cash+credit<amount1){
       return false;
     }
 
-   if(cash>=amount){
-    usersData[myIndexId].cash-amount;
+   if(cash>=amount1){
+    usersData[myIndexId].cash-=amount1;
+   
    }
-   if(cash<amount){
-     amount-=usersData[myIndexId].cash
+   if(cash<amount1){
+     amount1-=usersData[myIndexId].cash
      usersData[myIndexId].cash=0;
    }
-   if(amount>0){
-    usersData[myIndexId].credit-amount;
+   if(amount1>0){
+    usersData[myIndexId].credit-=amount1;
    }
+   usersData[targetIndexId].cash+=amount
    return true;
 }
 
@@ -131,10 +135,18 @@ const editUser = (req, res) => {
 };
 
 const deleteUser = (req, res) => {
-  res.send("ok");
+  const {id}=req.params;
+  let index=findUserIndex(id);
+  if(!index){
+    res.send('user does not exist')
+  }
+  usersData.splice(index, 1);
+  utils.addClient(path,usersData);
+  res.send("user was deleted ");
 };
 
 const getAllUsers = (req, res) => {
+
   res.send(utils.parserClients(path));
 };
 
