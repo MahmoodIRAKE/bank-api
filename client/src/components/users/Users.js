@@ -7,7 +7,7 @@ const [users,setUser]=useState(null);
 
 useEffect(()=>{
   const getData=async()=>{
-    const data=await api.get("api/users");
+    const data=await api.get("/users");
     setUser(data.data);
 
   }
