@@ -5,6 +5,7 @@ const { MONGO_URL, PORT } = require("./config");
 
 connect(MONGO_URL);
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || 8080,() => {
+    
     console.log(`Server is up on port ${PORT}`);
 });

@@ -1,0 +1,33 @@
+.card{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    box-shadow: 5px 5px 5px 5px rgb(177, 177, 177);
+    background-color: rgb(236, 232, 232);
+    margin-bottom:1%;
+    position: relative;
+}
+.card h2{
+    width:25%;
+    font-size:14px;
+}
+
+button{
+    color:red;
+    cursor: pointer;
+   
+}
+button:hover{
+    background-color: red;
+    color:#fff;
+}
+
+.pop{
+    width:25vmin;
+    height: 25vmin;
+    background-color: rgb(236, 232, 232);
+    position: absolute;
+    top:50%;
+    right: 50%;
+    z-index: 3;
+}
